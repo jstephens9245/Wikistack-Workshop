@@ -17,18 +17,28 @@ var Page = db.define('page', {
     },
     status: {
         type: Sequelize.ENUM('open', 'closed')
-    },
-    date: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
     }
 }, {
 	getterMethods: {
 		route: function () {
 			return '/wiki/' + this.urlTitle;
 		}
-	}
-});
+	},
+
+	hooks: {
+    	beforeValidate: function (page) {
+    		function generateUrlTitle (title) {
+					if (title) {
+						return title.replace(/\s+/g, '_').replace(/\W/g, '');
+					} else {
+						return Math.random().toString(36).substring(2, 7);
+					}
+				}
+    		page.urlTitle = generateUrlTitle(page.title);
+    		}
+		}
+	});
+
 
 var User = db.define('user', {
     name: {
