@@ -20,10 +20,10 @@ app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(function(req,res,next) {
-	// console.log(req.body);
-	next();
-})
+// app.use(function(req,res,next) {
+// 	// console.log(req.body);
+// 	next();
+// })
 
 var env = nunjucks.configure('views', {noCache: true});
 app.set('view engine', 'html');
@@ -47,7 +47,3 @@ models.User.sync({})
     });
 })
 .catch(console.error);
-
-
-
-
